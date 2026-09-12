@@ -1,7 +1,12 @@
-#[cfg(not(any(feature = "nusb", feature = "libusb", feature = "serial")))]
+#[cfg(not(any(feature = "nusb", feature = "libusb", feature = "serial", feature = "android")))]
 compile_error!(
-    "At least one of the features 'nusb', 'libusb', or 'serial' must be enabled for the port backend."
+    "At least one of the features 'nusb', 'libusb', 'serial', or 'android' must be enabled for the port backend."
 );
+
+#[cfg(feature = "android")]
+mod android_backend;
+#[cfg(feature = "android")]
+pub use android_backend::AndroidPort;
 
 #[cfg(feature = "nusb")]
 mod usb_backend;
